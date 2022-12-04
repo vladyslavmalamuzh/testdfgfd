@@ -1,13 +1,14 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {take} from "rxjs";
+import {take, tap} from "rxjs";
+import {CookieService} from "ngx-cookie";
 
 @Injectable({
   providedIn: 'root'
 })
 export class HttpService {
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private cookie: CookieService) {
 
   }
 
@@ -16,6 +17,7 @@ export class HttpService {
   public login(userObj) {
     this.http.post(this._apiUrl + '/login', userObj).pipe(
       take(1),
+      tap((data: any) => this.cookie.put('auth', data)) ,
     ).subscribe(
 
     )

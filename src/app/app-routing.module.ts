@@ -7,7 +7,12 @@ import {InfoComponent} from "./info/info.component";
 import {TeacherComponent} from "./teacher/teacher.component";
 
 const routes: Routes = [
-  { path: '', component: AuthPageComponent },
+  {
+    path: '',
+    redirectTo: '/login',
+    pathMatch: 'full'
+  },
+  { path: 'login', component: AuthPageComponent },
   { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
   {path:'info', component: InfoComponent, canActivate: [AuthGuard]},
   {path:'teacher', component: TeacherComponent, canActivate: [AuthGuard]},

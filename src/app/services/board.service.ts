@@ -4,13 +4,15 @@ import { Board, Card } from '../models/board.model';
 import { Subject, BehaviorSubject, Observable } from 'rxjs';
 import {HttpClient} from "@angular/common/http";
 import {Router} from "@angular/router";
+import {CookieService} from "ngx-cookie";
+import {HttpService} from "./http.service";
 
 
 @Injectable()
 
 export class BoardService {
 
-  constructor(private http: HttpClient, private router: Router) { }
+  constructor(private http: HttpService, private router: Router, private cookie: CookieService) { }
 
   private data:Board = data;
 
@@ -20,11 +22,15 @@ export class BoardService {
   public isGuard$ = new BehaviorSubject(false)
 
 
-  login(): any{
-    this.isLogin = true;
-    this.router.navigate(['home'])
+  login(creds?: any): any{
+    console.log(creds)
+    this.http.login(creds)
+    if (this.cookie.get("auth")){
+      this.router.navigate(['home'])
+    }
   }
   getBoard():Board {
+    this.http.getCards();
     return this.data;
   }
 
@@ -33,6 +39,7 @@ export class BoardService {
     let list = this.data.find(list => list.id == listId);
     list.cards = [ {id:Date.now(),title:cardTitle, content:'', priority:3}, ...list.cards ];
     this.setPriorityCards();
+    this.http.createCard(cardTitle);
   }
 
 
@@ -44,12 +51,14 @@ export class BoardService {
     let index = list.cards.indexOf(card);
     list.cards.splice(index, 1);
     this.setPriorityCards();
+    this.http.deleteCard(cardId);
   }
 
 
   updateCard(listIndex, cardIndex, newCard):void {
    this.data[listIndex].cards[cardIndex] = newCard;
    this.setPriorityCards();
+   this.http.updateCard(newCard)
   }
 
   addList(listName):void {

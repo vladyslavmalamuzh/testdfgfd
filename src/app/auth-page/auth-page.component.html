@@ -1,2 +1,20 @@
-<p>auth-page works!</p>
-<button class="submit" (click)="login()">Login</button>
+<div class="login-box">
+  <h2>Login</h2>
+  <form #userForm="ngForm">
+    <div class="user-box">
+      <input type="text" name="" required [(ngModel)]="user.surname" [ngModelOptions]="{standalone: true}">
+      <label>Username</label>
+    </div>
+    <div class="user-box">
+      <input type="password" name="" required [(ngModel)]="user.passowrd" [ngModelOptions]="{standalone: true}">
+      <label>Password</label>
+    </div>
+    <a href="#" (click)="login()">
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      Submit
+    </a>
+  </form>
+</div>

@@ -11,8 +11,12 @@ export class AuthPageComponent {
 
   constructor(private board: BoardService) {
   }
+  user = {
+    surname: "Me",
+    passowrd: "123",
+  };
 
   login() {
-    this.board.login()
+    this.board.login(this.user)
   }
 }

@@ -17,14 +17,15 @@ import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {JwtInterceptor} from "./interceptor/jwt.interceptor";
 import {AuthPageComponent} from "./auth-page/auth-page.component";
 import {HomeComponent} from "./home/home.component";
+import {CookieModule, CookieOptionsProvider, CookieService} from "ngx-cookie";
 
 @NgModule({
-  imports: [ BrowserModule, FormsModule, ReactiveFormsModule, DragDropModule, AppRoutingModule, HttpClientModule ],
+  imports: [ BrowserModule, FormsModule, ReactiveFormsModule, DragDropModule, AppRoutingModule, HttpClientModule, CookieModule.withOptions() ],
   declarations: [ AppComponent, HelloComponent, CardModalComponent, BoardComponent, PriorityComponent, InfoComponent, TeacherComponent, AuthPageComponent, HomeComponent ],
   bootstrap:    [ AppComponent ],
   providers: [
     BoardService,
-    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }, CookieService
   ]
 })
 export class AppModule { }
